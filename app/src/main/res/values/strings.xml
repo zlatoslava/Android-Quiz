@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Android Quiz</string>
     <string name="app_description">App description</string>
+    <string name="about_app_title">About an app</string>
+    <string name="settings_title">Settings</string>
+    <string name="rate_title">Rate this app</string>
+    <string name="share_title">Share</string>
+    <string name="privacy_title">Privacy</string>
+    <string name="tap_again">Tap again to exit</string>
 </resources>

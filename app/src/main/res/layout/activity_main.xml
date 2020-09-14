@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
 
+    <include
+        android:id="@+id/mainToolbar"
+        layout="@layout/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
