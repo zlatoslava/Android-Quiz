@@ -3,6 +3,9 @@ package savinykh.zlatoslava.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,9 +21,13 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import savinykh.zlatoslava.R;
+import savinykh.zlatoslava.Utility.ActivityUtilities;
 import savinykh.zlatoslava.Utility.AppUtilities;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Activity activity;
+    private Context context;
 
     private Toolbar mToolbar;
 
@@ -33,7 +40,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar); //TODO: solve!
+        setSupportActionBar(mToolbar);
+
+        activity = MainActivity.this;
+        context = getApplicationContext();
 
         final IProfile profile = new ProfileDrawerItem().withIcon(R.drawable.ic_launcher_foreground); //TODO: change
 
@@ -44,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 .withOnAccountHeaderProfileImageListener(new AccountHeader.OnAccountHeaderProfileImageListener() {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
-                        //TODO: launch activity
+                        ActivityUtilities.getInstance().invokeCustomUrlActivity(activity, CustomUrlActivity.class,
+                                getResources().getString(R.string.site), getResources().getString(R.string.site_url), false);
                         return false;
                     }
 
@@ -73,7 +84,22 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        //TODO: add code for launching activities
+                        if (drawerItem != null) {
+                            Intent intent = null;
+                            if (drawerItem.getIdentifier() == 10) {
+                                ActivityUtilities.getInstance().invokeNewActivity(activity, AboutDevActivity.class, false);
+
+                            } else if (drawerItem.getIdentifier() == 20) {
+                                // TODO: invoke SettingActivity
+                            } else if (drawerItem.getIdentifier() == 21) {
+                                AppUtilities.rateThisApp(activity);
+                            } else if (drawerItem.getIdentifier() == 22) {
+                                AppUtilities.shareApp(activity);
+                            } else if (drawerItem.getIdentifier() == 23) {
+                                ActivityUtilities.getInstance().invokeCustomUrlActivity(activity, CustomUrlActivity.class,
+                                        getResources().getString(R.string.privacy_title), getResources().getString(R.string.privacy_url), false);
+                            }
+                        }
                         return false;
                     }
                 })

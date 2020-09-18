@@ -15,5 +15,6 @@
 
     <string name="site">Fandroid.info</string>
     <string name="site_url">http://www.fandroid.info/</string>
+    <string name="privacy_url">https://docs.google.com/document/d/1ZUrFQwbxDTpg_o9UUx9NtH_JtOSmVuZqD2FTLBJ5qno/edit?usp=sharing</string>
 
 </resources>
