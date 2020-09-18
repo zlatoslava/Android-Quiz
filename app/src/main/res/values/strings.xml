@@ -7,4 +7,13 @@
     <string name="share_title">Share</string>
     <string name="privacy_title">Privacy</string>
     <string name="tap_again">Tap again to exit</string>
+    <string name="no_data">No data</string>
+    <string name="developer_name">Savinykh Zlatoslava</string>
+    <string name="developer_detail">Learning Android</string>
+    <string name="developer_message">Hiii</string>
+    <string name="about_dev">About developer</string>
+
+    <string name="site">Fandroid.info</string>
+    <string name="site_url">http://www.fandroid.info/</string>
+
 </resources>

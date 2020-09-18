@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +19,8 @@ public class BaseActivity extends AppCompatActivity {
     private Activity mActivity;
 
     private Toolbar mToolbar;
-    private ConstraintLayout mLoadingView, noDataView;
+    private LinearLayout mLoadingView, noDataView;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
