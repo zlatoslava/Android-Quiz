@@ -15,6 +15,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.AboutDevActivity"></activity>
         <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.BaseActivity"/>
+        <activity android:name=".Activity.CustomUrlActivity"/>
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +25,5 @@
             </intent-filter>
         </activity>
     </application>
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

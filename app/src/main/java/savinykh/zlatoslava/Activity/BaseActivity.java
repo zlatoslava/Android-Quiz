@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import savinykh.zlatoslava.R;
 
