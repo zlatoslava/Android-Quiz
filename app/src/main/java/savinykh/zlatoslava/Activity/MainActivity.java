@@ -2,11 +2,14 @@ package savinykh.zlatoslava.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -20,11 +23,23 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import savinykh.zlatoslava.Adapter.CategoryAdapter;
+import savinykh.zlatoslava.Constants.AppConstants;
+import savinykh.zlatoslava.Model.CategoryModel;
 import savinykh.zlatoslava.R;
 import savinykh.zlatoslava.Utility.ActivityUtilities;
 import savinykh.zlatoslava.Utility.AppUtilities;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private Activity activity;
     private Context context;
@@ -33,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
     private AccountHeader mHeader = null;
     private Drawer mDrawer = null;
+
+    private ArrayList<CategoryModel> mCategoryList;
+    private CategoryAdapter mAdapter = null;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
 
         activity = MainActivity.this;
         context = getApplicationContext();
+
+        mRecyclerView = findViewById(R.id.rvTests);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(activity));
+
+        mCategoryList = new ArrayList<>();
+        mAdapter = new CategoryAdapter(context, activity, mCategoryList);
+        mRecyclerView.setAdapter(mAdapter);
+
+        initLoader();
+        loadData();
 
         final IProfile profile = new ProfileDrawerItem().withIcon(R.drawable.ic_launcher_foreground); //TODO: change
 
@@ -109,6 +138,53 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
+    private void loadData() {
+        showLoader();
+        loadJson();
+    }
+
+    private void loadJson() {
+        StringBuffer sb = new StringBuffer();
+        BufferedReader br = null;
+        try{
+            br = new BufferedReader(new InputStreamReader(getAssets().open(AppConstants.CONTENT_FILE)));
+            String temp;
+            while ((temp = br.readLine()) != null)
+                sb.append(temp);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        parseJson(sb.toString());
+        Log.d("mtag", "loadJson: " + sb.toString());
+    }
+
+    private void parseJson(String jsonData) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+            JSONArray jsonArray = jsonObject.getJSONArray(AppConstants.JSON_KEY_ITEMS);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+
+                String categoryId = object.getString(AppConstants.JSON_KEY_CATEGORY_ID);
+                String categoryName = object.getString(AppConstants.JSON_KEY_CATEGORY_NAME);
+
+                mCategoryList.add(new CategoryModel(categoryId, categoryName));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        hideLoader();
+        mAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onBackPressed() {
         if (mDrawer != null && mDrawer.isDrawerOpen()) {
@@ -117,4 +193,5 @@ public class MainActivity extends AppCompatActivity {
             AppUtilities.tapPromptToExit(this);
         }
     }
+
 }
